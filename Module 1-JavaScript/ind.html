@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Local Community Event Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      width: 350px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 20px auto;
+    }
+    .event-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .event-card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .event-card h3 {
+      margin: 0;
+    }
+    .event-card p {
+      margin: 5px 0;
+    }
+    button, select, input[type="text"], input[type="email"] {
+      margin-top: 10px;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    #spinner {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .mini-form {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    .mini-form input {
+      padding: 5px;
+      font-size: 0.9em;
+    }
+    .mini-form button {
+      padding: 6px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Local Community Event Portal</h1>
+
+  <div class="card">
+    <h2>Register for an Event</h2>
+    <form id="registrationForm">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <select name="eventSelect" required></select>
+      <button type="submit">Register</button>
+      <p class="error" id="formError"></p>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Events</h2>
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="music">Music</option>
+      <option value="workshop">Workshop</option>
+    </select>
+    <input type="text" id="searchInput" placeholder="Search events..." />
+    <div id="spinner">Loading...</div>
+    <br><br>
+    <div class="event-container" id="eventsContainer"></div>
+  </div>
+
+  <script>
+    console.log("Welcome to the Community Portal");
+    alert("Page fully loaded");
+
+    class Event {
+      constructor(name, date, category, seats) {
+        this.name = name;
+        this.date = new Date(date);
+        this.category = category;
+        this.seats = seats;
+      }
+
+      checkAvailability() {
+        return this.seats > 0 && this.date > new Date();
+      }
+    }
+
+    const events = [
+      new Event("Music Festival", "2025-06-01", "music", 20),
+      new Event("Art Workshop", "2025-05-10", "workshop", 0),
+      new Event("Jazz Night", "2025-06-15", "music", 15)
+    ];
+
+    const registrations = {};
+    const addEvent = (event) => events.push(event);
+
+    const registerUser = (eventName) => {
+      try {
+        const event = events.find(e => e.name === eventName);
+        if (!event || !event.checkAvailability()) throw new Error("Event full or expired");
+        event.seats--;
+        registrations[event.category] = (registrations[event.category] || 0) + 1;
+        renderEvents(events);
+        populateSelect();
+        alert("Registered successfully!");
+      } catch (err) {
+        console.error(err.message);
+        alert("Registration failed: " + err.message);
+      }
+    };
+
+    const filterEventsByCategory = (category) =>
+      events.filter(e => !category || e.category === category);
+
+    function handleCardRegistration(e, eventName) {
+      e.preventDefault();
+      const name = e.target.elements["name"].value;
+      const email = e.target.elements["email"].value;
+      if (!name || !email) return alert("Please fill out both fields.");
+      simulateFetch({ name, email, event: eventName });
+    }
+
+    const renderEvents = (eventList) => {
+      const container = document.getElementById("eventsContainer");
+      container.innerHTML = "";
+      eventList.forEach(event => {
+        if (event.checkAvailability()) {
+          const card = document.createElement("div");
+          card.className = "event-card";
+          card.innerHTML = `
+            <h3>${event.name}</h3>
+            <p>Date: ${event.date.toDateString()}</p>
+            <p>Seats: ${event.seats}</p>
+            <form class="mini-form" onsubmit="handleCardRegistration(event, '${event.name}')">
+              <input type="text" name="name" placeholder="Your Name" required />
+              <input type="email" name="email" placeholder="Your Email" required />
+              <button type="submit">Register</button>
+            </form>
+          `;
+          container.appendChild(card);
+        }
+      });
+    };
+
+    const populateSelect = () => {
+      const select = document.querySelector("select[name='eventSelect']");
+      select.innerHTML = "";
+      events.forEach(event => {
+        if (event.checkAvailability()) {
+          const option = document.createElement("option");
+          option.value = event.name;
+          option.textContent = event.name;
+          select.appendChild(option);
+        }
+      });
+    };
+
+    document.getElementById("categoryFilter").onchange = function () {
+      const filtered = filterEventsByCategory(this.value);
+      renderEvents(filtered);
+    };
+
+    document.getElementById("searchInput").onkeydown = function () {
+      const query = this.value.toLowerCase();
+      const filtered = events.filter(e => e.name.toLowerCase().includes(query));
+      renderEvents(filtered);
+    };
+
+    document.getElementById("registrationForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = this.elements["name"].value;
+      const email = this.elements["email"].value;
+      const selectedEvent = this.elements["eventSelect"].value;
+
+      if (!name || !email || !selectedEvent) {
+        document.getElementById("formError").textContent = "Please fill all fields.";
+        return;
+      }
+
+      document.getElementById("formError").textContent = "";
+      simulateFetch({ name, email, event: selectedEvent });
+    });
+
+    const simulateFetch = (data) => {
+      document.getElementById("spinner").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("spinner").style.display = "none";
+        console.log("POST data:", data);
+        registerUser(data.event);
+      }, 1000);
+    };
+
+    // Initialize
+    renderEvents(events);
+    populateSelect();
+  </script>
+</body>
+</html>
