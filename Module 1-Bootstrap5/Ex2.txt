@@ -1,0 +1,33 @@
+Exercise 2.1 - Explore Structure
+When we download Bootstrap, the folder contains several important subfolders. Here's an explanation of the key ones:
+
+css/
+This folder contains the main Bootstrap stylesheets.
+The file bootstrap.min.css is the minified version of Bootstrap's CSS.
+It includes predefined styles for layout, typography, colors, spacing, buttons, forms, etc.
+
+js/
+This folder contains Bootstrap's JavaScript files.
+bootstrap.bundle.min.js is the minified JavaScript bundle that includes both Bootstrap's JS plugins and Popper.js, which is required for tooltips and popovers to work.
+It enables dynamic components like modal, carousel, dropdown, and collapse.
+
+icons/ 
+Contains Bootstrap Icons, which are SVG-based icon files.
+These icons can be used in UI design (like buttons, alerts, navbars, etc.).
+
+
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+
+
+Exercise 2.2 - Include Bootstrap JS Plugins
+To include Bootstrap's JavaScript functionality in your HTML page, you must add the following line before the closing </body> tag:
+
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+This script enables the following Bootstrap components:
+Modal- For pop-up dialogs
+Carousel- For image sliders
+Dropdown- For toggleable dropdown menus
+Collapse- For expanding/collapsing content (like accordions)
+
+The .bundle.min.js file includes both Bootstrap's core JavaScript and the Popper library, so you don't need to include them separately.

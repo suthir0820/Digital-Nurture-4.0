@@ -1,0 +1,11 @@
+Exercise 3.2 – Use Bootstrap grid classes appropriately
+
+To achieve responsive layouts, use these Bootstrap grid classes:
+.container – Wraps content in a responsive fixed-width container.
+.row – Creates a horizontal group of columns.
+.col-* – Defines how much width a column should take based on the screen size:
+.col-12 (mobile)
+.col-sm-6 (tablet)
+.col-md-4 (desktop)
+
+These classes allow the layout to adapt to different screen sizes automatically.

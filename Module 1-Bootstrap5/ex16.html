@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Positioning Utilities</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+    body {
+      padding-bottom: 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-5">
+    <h2 class="mb-4">Exercise 16.1: Fixed Footer</h2>
+    <p>This page has a footer that stays fixed at the bottom of the screen using <code>position-fixed bottom-0</code>.</p>
+
+    <h2 class="mt-5 mb-4">Exercise 16.2: Overlay Badge on Image</h2>
+    <div class="position-relative d-inline-block">
+      <img src="https://via.placeholder.com/200" alt="Product Image" class="img-fluid rounded">
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        New
+      </span>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-white text-center py-3 position-fixed bottom-0 w-100">
+    Fixed Footer © 2025
+  </footer>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
