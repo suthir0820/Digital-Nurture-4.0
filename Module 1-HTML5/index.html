@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Community Event Portal</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#events">Events</a>
+  <a href="#contact">Contact</a>
+  <a href="help.html" target="_blank">Help</a>
+</nav>
+
+<section id="home">
+  <div id="welcomeBanner">Welcome to the Local Community Portal</div>
+  <p><span style="color: red; font-weight: bold;">Special Offer:</span> Register today and get a free gift!</p>
+  <p class="highlight">Don't miss upcoming events in your area!</p>
+</section>
+
+<section id="events">
+  <h2>Past Events Gallery</h2>
+  <table>
+    <tr>
+      <td><img src="assets/event1.jpg" class="event-img" alt="Event 1" title="Event 1"></td>
+      <td><img src="assets/event2.jpg" class="event-img" alt="Event 2" title="Event 2"></td>
+      <td><img src="assets/event3.jpg" class="event-img" alt="Event 3" title="Event 3"></td>
+    </tr>
+    <tr>
+      <td><img src="assets/event4.jpg" class="event-img" alt="Event 4" title="Event 4"></td>
+      <td><img src="assets/event5.jpg" class="event-img" alt="Event 5" title="Event 5"></td>
+      <td><img src="assets/event6.jpg" class="event-img" alt="Event 6" title="Event 6"></td>
+    </tr>
+  </table>
+
+  <h3>Event Registration</h3>
+  <form onsubmit="return submitForm(event)">
+    <input type="text" name="name" placeholder="Your Name" required autofocus>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <input type="date" name="date" required>
+    <select id="eventType" name="eventType" onchange="updateFee()" required>
+      <option value="">Select Event Type</option>
+      <option value="Workshop">Workshop</option>
+      <option value="Seminar">Seminar</option>
+      <option value="Concert">Concert</option>
+    </select>
+    <textarea id="message" placeholder="Message" onkeyup="countCharacters()"></textarea>
+    <input type="tel" id="phone" placeholder="Phone Number" onblur="validatePhone()">
+    <output id="feeOutput"></output>
+    <output id="charCount"></output>
+    <button type="submit" onclick="confirmSubmit()">Register</button>
+  </form>
+</section>
+
+<section id="contact">
+  <h2>Event Feedback</h2>
+  <select onchange="updateFee()">
+    <option value="">Choose Event</option>
+    <option value="100">Community Fair - ₹100</option>
+    <option value="200">Music Night - ₹200</option>
+  </select>
+  <br>
+  <img src="assets/event1.jpg" width="100" ondblclick="enlargeImage(this)">
+  <br>
+  <textarea id="feedback" onkeyup="countCharacters()" placeholder="Your feedback"></textarea>
+  <div id="charCount"></div>
+  <br>
+  <button onclick="confirmSubmit()">Submit Feedback</button>
+</section>
+
+<section>
+  <h2>Event Promo Video</h2>
+  <video width="320" controls oncanplay="videoReady()">
+    <source src="assets/promo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div id="videoStatus"></div>
+</section>
+
+<section>
+  <h2>Find Nearby Events</h2>
+  <button onclick="getLocation()">Find Nearby Events</button>
+  <p id="locationResult"></p>
+</section>
+
+<section>
+  <h2>Your Preferences</h2>
+  <select id="eventPreference" onchange="savePreference()">
+    <option value="">Choose Event Type</option>
+    <option value="Workshop">Workshop</option>
+    <option value="Seminar">Seminar</option>
+    <option value="Concert">Concert</option>
+  </select>
+  <button onclick="clearPreferences()">Clear Preferences</button>
+</section>
+
+<footer>
+  <p>&copy; Local City Council</p>
+</footer>
+
+</body>
+</html>
